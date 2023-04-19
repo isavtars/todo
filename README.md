@@ -22,5 +22,5 @@ sqflite
 
 
 
-## Site link
+## see the prototype of app
 host on github
