@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:sqllite/screen/home_screen.dart';
+import 'screen/splashscreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHome(),
+      home: const SplashScreen(),
     );
   }
 }
