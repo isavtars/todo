@@ -11,10 +11,21 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  late Animation<double> animation;
+  late Animation<double> animationx;
+  late AnimationController animationController;
+
   @override
   void initState() {
     super.initState();
+
+    animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1000));
+    animation = Tween<double>(begin: 0, end: 0.25).animate(animationController);
+
+    animationController.forward();
 
     Timer(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
@@ -29,43 +40,50 @@ class _SplashScreenState extends State<SplashScreen> {
         body: Container(
       height: double.maxFinite,
       width: double.maxFinite,
-      decoration: const BoxDecoration(
-          color: Color(0xff47BBEA),
-          image: DecorationImage(
-              fit: BoxFit.cover,
-              image: AssetImage(
-                'assets/images/spalshlogo.jpg',
-              ))),
-      child: Stack(
-        children: [
-          Positioned(
-              bottom: size.height * 0.2,
-              left: size.width * 0.32,
-              child: const Text(
-                "@vatar",
-                style: TextStyle(
-                    color: Colors.white10,
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600),
-              )),
-          Positioned(
-              bottom: size.height * 0.25,
-              left: size.width * 0.28,
-              child: const AnimatedPositioned(
-                // top: size.width * 0.28,
-                // bottom: size.height * 0.25,
-                duration: Duration(seconds: 2),
-                curve: Curves.fastOutSlowIn,
-                child: Text(
-                  "Todo App",
-                  style: TextStyle(
-                      color: Color.fromARGB(246, 6, 192, 216),
-                      fontSize: 45,
-                      fontWeight: FontWeight.w600),
-                ),
-              ))
-        ],
+      decoration: const BoxDecoration(),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AnimationLogo(
+              animation: animation,
+            ),
+            SizedBox(
+              height: size.height * 0.02,
+            ),
+            const Text(
+              "Todo app",
+              style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 32,
+                  fontWeight: FontWeight.w900),
+            )
+          ],
+        ),
       ),
     ));
+  }
+}
+
+class AnimationLogo extends AnimatedWidget {
+  const AnimationLogo({Key? key, required Animation<double> animation})
+      : super(key: key, listenable: animation);
+
+  @override
+  Widget build(BuildContext context) {
+    final Animation<double> animation = listenable as Animation<double>;
+    return Transform.rotate(
+      angle: animation.value * 25,
+      child: AnimatedPositioned(
+        top: animation.value * 10,
+        duration: const Duration(milliseconds: 1000),
+        child: SizedBox(
+          child: Image.asset(
+            'assets/images/ic_launcher.png',
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
   }
 }
