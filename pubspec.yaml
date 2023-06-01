@@ -35,7 +35,12 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   sqflite: ^2.2.6
-
+  google_fonts: ^4.0.5
+  get: ^4.6.5
+  flutter_date_picker_timeline: ^0.3.3
+  date_picker_timeline: ^1.2.3
+  intl: ^0.17.0
+ 
 dev_dependencies:
   flutter_test:
     sdk: flutter

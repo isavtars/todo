@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sqllite/sql_lite_helper.dart';
-import '../constant/app_styles.dart';
+import 'package:sqllite/resources/sql_lite_helper.dart';
 
 import 'dart:core';
 
-import '../widgets/showsnackbar.dart';
+import '../../utils/app_styles.dart';
+import 'showsnackbar.dart';
 
 class MyHome extends StatefulWidget {
   const MyHome({super.key});
@@ -59,9 +59,7 @@ class _MyHomeState extends State<MyHome> {
                 TextButton(
                   onPressed: () async {
                     await SQLHelper.deleteItems(id!);
-
                     _refersJournals();
-                    Navigator.pop(context);
                   },
                   child: const Text('OK'),
                 ),

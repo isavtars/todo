@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'home_screen.dart';
+import 'home_screen2.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -28,8 +28,8 @@ class _SplashScreenState extends State<SplashScreen>
     animationController.forward();
 
     Timer(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const MyHome()));
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const HomeScreen2()));
     });
   }
 
@@ -37,28 +37,30 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-        body: Container(
-      height: double.maxFinite,
-      width: double.maxFinite,
-      decoration: const BoxDecoration(),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AnimationLogo(
-              animation: animation,
-            ),
-            SizedBox(
-              height: size.height * 0.02,
-            ),
-            const Text(
-              "Todo app",
-              style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 32,
-                  fontWeight: FontWeight.w900),
-            )
-          ],
+        body: SafeArea(
+      child: Container(
+        height: double.maxFinite,
+        width: double.maxFinite,
+        decoration: const BoxDecoration(),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AnimationLogo(
+                animation: animation,
+              ),
+              SizedBox(
+                height: size.height * 0.02,
+              ),
+              const Text(
+                "Todo app",
+                style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 32,
+                    fontWeight: FontWeight.w900),
+              )
+            ],
+          ),
         ),
       ),
     ));
