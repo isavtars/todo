@@ -16,16 +16,18 @@ class HomeScreen2 extends StatefulWidget {
   State<HomeScreen2> createState() => _HomeScreen2State();
 }
 
+List<String> dropedown_items = ["5", "10", "15", "20"];
+
 class _HomeScreen2State extends State<HomeScreen2> {
   DateTime selecteddate = DateTime.now();
-
+  String dropdownValue = dropedown_items.first;
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
 
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.only(top: SizeConfig.blockSizeHorizantal! * 6),
+        margin: EdgeInsets.only(top: SizeConfig.blockSizeHorizantal! * 8),
         padding: EdgeInsets.symmetric(
             horizontal: SizeConfig.blockSizeHorizantal! * 3),
         child: Column(children: [
@@ -58,8 +60,38 @@ class _HomeScreen2State extends State<HomeScreen2> {
           const SizedBox(
             height: 10,
           ),
-          Text('${DateFormat("hh:mm a").format(selecteddate)}'),
-           Text('${DateFormat.yMd().format(selecteddate)}')
+          Text(DateFormat("hh:mm a").format(selecteddate)),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(DateFormat.yMd().format(selecteddate)),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(dropdownValue),
+          const SizedBox(
+            height: 10,
+          ),
+
+          DropdownButton<String>(
+            value: dropdownValue,
+            elevation: 16,
+            style: const TextStyle(color: Colors.deepPurple),
+            icon: const Icon(Icons.keyboard_arrow_down),
+            items:
+                dropedown_items.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+            onChanged: (String? value) {
+              // This is called when the user selects an item.
+              setState(() {
+                dropdownValue = value!;
+              });
+            },
+          )
         ]),
       ),
     );
@@ -130,7 +162,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
               width: SizeConfig.blockSizeHorizantal! * 37,
             ),
           ],
-        )
+        ),
       ]),
     );
   }

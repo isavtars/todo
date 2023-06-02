@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sqllite/logic/bainding/bainding.dart';
-import 'package:sqllite/screen/home_screen2.dart';
+
+import 'screen/splashscreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,12 +13,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'sqlcrud',
+      title: 'Todo App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
-      home: const HomeScreen2(),
+      home: const SplashScreen(),
       initialBinding: MyBainding(),
     );
   }

@@ -10,9 +10,9 @@ class CustomeInput extends StatelessWidget {
     required this.title,
     required this.hintText,
     this.validators,
-    required this.textinputType,
+    this.textinputType,
     this.isPrefix = false,
-    this.sufickclassbacl,
+    this.sufickcallback,
     this.superfixicon,
   });
 
@@ -20,9 +20,9 @@ class CustomeInput extends StatelessWidget {
   final String title;
   final String hintText;
   final dynamic validators;
-  final TextInputType textinputType;
+  final TextInputType? textinputType;
   final bool isPrefix;
-  final VoidCallback? sufickclassbacl;
+  final VoidCallback? sufickcallback;
   final IconData? superfixicon;
 
   @override
@@ -43,9 +43,14 @@ class CustomeInput extends StatelessWidget {
           controller: titleController,
           decoration: InputDecoration(
               // isPrefix?Prefix
+
               suffixIcon: isPrefix
                   ? IconButton(
-                      onPressed: sufickclassbacl, icon: Icon(superfixicon))
+                      onPressed: sufickcallback,
+                      icon: Icon(
+                        superfixicon,
+                        color: kprimarycolor,
+                      ))
                   : null,
               hintText: hintText,
               enabledBorder:
@@ -55,5 +60,54 @@ class CustomeInput extends StatelessWidget {
         )
       ]),
     );
+  }
+}
+
+class CustomeInputWithdrop extends StatelessWidget {
+  const CustomeInputWithdrop({
+    super.key,
+    this.titleController,
+    required this.title,
+    required this.hintText,
+    required this.suffix,
+  });
+
+  final TextEditingController? titleController;
+  final String title;
+  final String hintText;
+
+  final Widget suffix;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text(
+        title,
+        style: kQuestrialRegular.copyWith(
+            fontWeight: FontWeight.w500,
+            fontSize: SizeConfig.blockSizeHorizantal! * 6),
+      ),
+      SizedBox(
+        height: SizeConfig.blockSizeVertical! * 1,
+      ),
+      Container(
+        height: 65,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12), border: Border.all()),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text(
+              hintText,
+              style: kQuestrialRegular.copyWith(
+                  fontWeight: FontWeight.w500,
+                  fontSize: SizeConfig.blockSizeHorizantal! * 4.5),
+            ),
+            suffix
+          ]),
+        ),
+      )
+    ]);
   }
 }

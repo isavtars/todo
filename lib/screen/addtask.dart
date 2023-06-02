@@ -14,6 +14,9 @@ class AddTaskScreenn extends StatefulWidget {
   State<AddTaskScreenn> createState() => _AddTaskScreennState();
 }
 
+List<String> dropedownitems = ["5", "10", "15", "20"];
+List<String> reapeatlist = ["None", "Daily", "Weekly", "monthly"];
+
 class _AddTaskScreennState extends State<AddTaskScreenn> {
   final titleController = TextEditingController();
   final noteController = TextEditingController();
@@ -25,162 +28,245 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
   String startTime = DateFormat('hh:mm a').format(DateTime.now()).toString();
   String endTime = "10:05 pm";
 
+  String reminderdropvalue = dropedownitems.first;
+  String reaptedropvalue = "None";
+  int selectecolor = 0;
+
   TimeOfDay selectedTime = TimeOfDay.now();
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.only(top: SizeConfig.blockSizeHorizantal! * 6),
-          padding: EdgeInsets.symmetric(
-              horizontal: SizeConfig.blockSizeHorizantal! * 3),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Container(
-              color: Colors.white,
-              height: SizeConfig.blockSizeHorizantal! * 15,
-              child: Row(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            margin: EdgeInsets.only(top: SizeConfig.blockSizeHorizantal! * 1),
+            padding: EdgeInsets.symmetric(
+                horizontal: SizeConfig.blockSizeHorizantal! * 3),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Container(
+                color: Colors.white,
+                height: SizeConfig.blockSizeHorizantal! * 15,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(
+                        Icons.keyboard_arrow_left,
+                        color: kprimarycolor,
+                        size: SizeConfig.blockSizeHorizantal! * 9,
+                      ),
+                    ),
+                    CircleAvatar(
+                      radius: SizeConfig.blockSizeHorizantal! * 5,
+                      backgroundColor: kprimarycolor,
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical! * 2,
+              ),
+              Text(
+                "Add Task",
+                style: kQuestrialSemibold.copyWith(
+                    color: kprimarycolor,
+                    fontWeight: FontWeight.w900,
+                    fontSize: SizeConfig.blockSizeHorizantal! * 6),
+              ),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical! * 2,
+              ),
+              CustomeInput(
+                titleController: titleController,
+                title: "Title",
+                hintText: "Go to Gym",
+                textinputType: TextInputType.text,
+              ),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical! * 2,
+              ),
+              CustomeInput(
+                titleController: noteController,
+                title: "Note",
+                hintText: "note",
+                textinputType: TextInputType.text,
+              ),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical! * 2,
+              ),
+              CustomeInput(
+                titleController: dateTimeController,
+                title: "Date",
+                hintText: DateFormat.yMd().format(_selectedDate),
+                textinputType: TextInputType.text,
+                isPrefix: true,
+                superfixicon: Icons.calendar_today_outlined,
+                sufickcallback: userDatePickwer,
+              ),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical! * 2,
+              ),
+
+              //startrime/endtime
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Icon(
-                      Icons.arrow_back,
-                      size: SizeConfig.blockSizeHorizantal! * 8,
+                  Expanded(
+                    child: CustomeInput(
+                      title: "Start Time",
+                      hintText: startTime,
+                      textinputType: TextInputType.datetime,
+                      superfixicon: Icons.access_time_filled_outlined,
+                      isPrefix: true,
+                      sufickcallback: () async {
+                        await getTimeFromUser(isStartTime: true);
+                      },
                     ),
                   ),
-                  CircleAvatar(
-                    radius: SizeConfig.blockSizeHorizantal! * 5,
-                    backgroundColor: kprimarycolor,
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Expanded(
+                    child: CustomeInput(
+                      title: "End Time",
+                      hintText: endTime,
+                      textinputType: TextInputType.datetime,
+                      superfixicon: Icons.access_time_filled_outlined,
+                      isPrefix: true,
+                      sufickcallback: () async {
+                        await getTimeFromUser(isStartTime: false);
+                      },
+                    ),
                   )
                 ],
               ),
-            ),
-            SizedBox(
-              height: SizeConfig.blockSizeVertical! * 2,
-            ),
-            Text(
-              "Add Task",
-              style: kQuestrialSemibold.copyWith(
-                  color: kprimarycolor,
-                  fontWeight: FontWeight.w900,
-                  fontSize: SizeConfig.blockSizeHorizantal! * 6),
-            ),
-            SizedBox(
-              height: SizeConfig.blockSizeVertical! * 2,
-            ),
-            CustomeInput(
-              titleController: titleController,
-              title: "Title",
-              hintText: "Go to Gym",
-              textinputType: TextInputType.text,
-            ),
-            SizedBox(
-              height: SizeConfig.blockSizeVertical! * 2,
-            ),
-            CustomeInput(
-              titleController: noteController,
-              title: "Note",
-              hintText: "note",
-              textinputType: TextInputType.text,
-            ),
-            SizedBox(
-              height: SizeConfig.blockSizeVertical! * 2,
-            ),
-            CustomeInput(
-              titleController: dateTimeController,
-              title: "Date",
-              hintText: DateFormat.yMd().format(_selectedDate),
-              textinputType: TextInputType.text,
-              isPrefix: true,
-              superfixicon: Icons.calendar_today_outlined,
-              sufickclassbacl: userDatePickwer,
-            ),
-            SizedBox(
-              height: SizeConfig.blockSizeVertical! * 2,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: CustomeInput(
-                    title: "Start Time",
-                    hintText: selectedTime.toString(),
-                    textinputType: TextInputType.datetime,
-                    superfixicon: Icons.access_time_filled_outlined,
-                    isPrefix: true,
-                    sufickclassbacl: () async {
-                      await getTimeFromUser(isStartTime: true);
+              SizedBox(
+                height: SizeConfig.blockSizeVertical! * 2,
+              ),
+
+              //reminder
+              CustomeInputWithdrop(
+                  title: "Reminder",
+                  hintText: "$reminderdropvalue minutesearly",
+                  // suffixIcon: Icons.keyboard_arrow_down,
+                  suffix: DropdownButton<String>(
+                    elevation: 0,
+                    iconSize: 32,
+                    style: kQuestrialRegular.copyWith(
+                        color: kprimarycolor, fontSize: 18),
+                    icon: const Icon(
+                      Icons.keyboard_arrow_down,
+                      color: kprimarycolor,
+                    ),
+                    items: dropedownitems
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: kQuestrialRegular.copyWith(
+                              fontSize: 18, color: kprimarycolor),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (String? value) {
+                      // This is called when the user selects an item.
+                      setState(() {
+                        reminderdropvalue = value!;
+                      });
                     },
-                  ),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                Expanded(
-                  child: CustomeInput(
-                    title: "End Time",
-                    hintText: endTime,
-                    textinputType: TextInputType.datetime,
-                    superfixicon: Icons.access_time_filled_outlined,
-                    isPrefix: true,
-                    sufickclassbacl: () async {
-                      await getTimeFromUser(isStartTime: false);
+                  )),
+
+              SizedBox(
+                height: SizeConfig.blockSizeVertical! * 2,
+              ),
+
+              //reapts
+              CustomeInputWithdrop(
+                  title: "Reapate",
+                  hintText: reaptedropvalue,
+                  // suffixIcon: Icons.keyboard_arrow_down,
+                  suffix: DropdownButton<String>(
+                    elevation: 1,
+                    iconSize: 32,
+                    style: const TextStyle(
+                      color: Colors.grey,
+                    ),
+                    icon: const Icon(
+                      Icons.keyboard_arrow_down,
+                      color: kprimarycolor,
+                    ),
+                    items: reapeatlist
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: kQuestrialRegular.copyWith(
+                              fontSize: 18, color: kprimarycolor),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (String? value) {
+                      // This is called when the user selects an item.
+                      setState(() {
+                        reaptedropvalue = value!;
+                      });
                     },
-                  ),
-                )
-              ],
-            ),
-            SizedBox(
-              height: SizeConfig.blockSizeVertical! * 2,
-            ),
-            //reminder
-            CustomeInput(
-              titleController: dateTimeController,
-              title: "Reminder",
-              hintText: "5 minutest",
-              textinputType: TextInputType.text,
-              isPrefix: true,
-              superfixicon: Icons.calendar_today_outlined,
-              sufickclassbacl: () {},
-            ),
-            SizedBox(
-              height: SizeConfig.blockSizeVertical! * 2,
-            ),
-            //reapts
-            CustomeInput(
-              titleController: dateTimeController,
-              title: "Reapete",
-              hintText: "None",
-              textinputType: TextInputType.text,
-              isPrefix: true,
-              superfixicon: Icons.calendar_today_outlined,
-              sufickclassbacl: () {},
-            ),
-            SizedBox(
-              height: SizeConfig.blockSizeVertical! * 2,
-            ),
-            //Create task Color
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  children: [
-                    Text("Colors"),
-                  ],
-                ),
-                CustomeBtn(
-                  icons: Icons.create,
-                  bthTitles: "Create",
-                  onpressed: () {},
-                )
-              ],
-            )
-          ]),
+                  )),
+
+              SizedBox(
+                height: SizeConfig.blockSizeVertical! * 3,
+              ),
+
+              //Create task Color
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Wrap(
+                      children: List.generate(3, (int index) {
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectecolor = index;
+                        });
+                      },
+                      child: Container(
+                          margin: const EdgeInsets.only(left: 10),
+                          child: CircleAvatar(
+                            radius: 16,
+                            backgroundColor: index == 0
+                                ? Colors.blue
+                                : index == 2
+                                    ? Colors.red
+                                    : Colors.green,
+                            child: selectecolor == index
+                                ? const Icon(
+                                    Icons.done,
+                                    color: Colors.white,
+                                  )
+                                : null,
+                          )),
+                    );
+                  })),
+                  CustomeBtn(
+                    icons: Icons.create,
+                    bthTitles: "Create",
+                    onpressed: () {},
+                  )
+                ],
+              ),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical! * 3,
+              ),
+            ]),
+          ),
         ),
       ),
     );
@@ -190,13 +276,8 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
     var pickedTime = await getTimePicker();
 
     // ignore: use_build_context_synchronously
-    String formateTime = DateFormat('hh:mm a').format(pickedTime);
+    String formateTime = pickedTime.format(context);
 
-    if (pickedTime != null) {
-      setState(() {
-        selectedTime = pickedTime;
-      });
-    }
     if (pickedTime == null) {
       debugPrint("Time Cancled");
     } else if (isStartTime == true) {
@@ -216,11 +297,10 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
     return showTimePicker(
         initialEntryMode: TimePickerEntryMode.input,
         context: context,
-        initialTime: selectedTime
-        // initialTime: TimeOfDay(
-        //     hour: int.parse(startTime.split(':')[0]),
-        //     minute: int.parse(startTime.split(':')[1].split(" ")[0]))
-        );
+        // initialTime: selectedTime
+        initialTime: TimeOfDay(
+            hour: int.parse(startTime.split(':')[0]),
+            minute: int.parse(startTime.split(':')[1].split(" ")[0])));
   }
 
   userDatePickwer() async {
