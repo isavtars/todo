@@ -1,9 +1,11 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import 'package:sqllite/utils/sizeconfig.dart';
 
+import '../logic/themchanger.dart';
 import '../utils/app_styles.dart';
 
 import 'addtask.dart';
@@ -17,15 +19,24 @@ class HomeScreen2 extends StatefulWidget {
 }
 
 List<String> dropedown_items = ["5", "10", "15", "20"];
+bool changevalue = false;
+final changeThemes = Get.find<ThemModeChange>();
 
 class _HomeScreen2State extends State<HomeScreen2> {
   DateTime selecteddate = DateTime.now();
   String dropdownValue = dropedown_items.first;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
 
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Container(
         margin: EdgeInsets.only(top: SizeConfig.blockSizeHorizantal! * 8),
         padding: EdgeInsets.symmetric(
@@ -100,15 +111,36 @@ class _HomeScreen2State extends State<HomeScreen2> {
 //header
   Container header({required IconData icon}) {
     return Container(
-      color: Colors.white,
       height: SizeConfig.blockSizeHorizantal! * 15,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(
-            Icons.dark_mode,
-            size: SizeConfig.blockSizeHorizantal! * 8,
+          IconButton(
+            onPressed: () {
+              print(changeThemes.isDarkMode(context));
+              if (changeThemes.isDarkMode(context) == true) {
+                setState(() {
+                  changevalue = false;
+                });
+              } else {
+                setState(() {
+                  changevalue = true;
+                });
+              }
+              changeThemes.switchTheme(changevalue);
+            },
+            icon: changeThemes.isDarkMode(context) == true
+                ? Icon(
+                    Icons.light_mode,
+                    color: changevalue == false ? Colors.black : Colors.white,
+                    size: SizeConfig.blockSizeHorizantal! * 8,
+                  )
+                : Icon(
+                    Icons.dark_mode,
+                    color: changevalue == false ? Colors.black : Colors.white,
+                    size: SizeConfig.blockSizeHorizantal! * 8,
+                  ),
           ),
           CircleAvatar(
             radius: SizeConfig.blockSizeHorizantal! * 5,

@@ -42,21 +42,20 @@ class CustomeInput extends StatelessWidget {
           validator: validators,
           controller: titleController,
           decoration: InputDecoration(
-              // isPrefix?Prefix
+            // isPrefix?Prefix
 
-              suffixIcon: isPrefix
-                  ? IconButton(
-                      onPressed: sufickcallback,
-                      icon: Icon(
-                        superfixicon,
-                        color: kprimarycolor,
-                      ))
-                  : null,
-              hintText: hintText,
-              enabledBorder:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-              focusedBorder:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
+            suffixIcon: isPrefix
+                ? IconButton(
+                    onPressed: sufickcallback,
+                    icon: Icon(
+                      superfixicon,
+                      color: kprimarycolor,
+                    ))
+                : null,
+            hintText: hintText,
+            enabledBorder: Theme.of(context).inputDecorationTheme.enabledBorder,
+            focusedBorder: Theme.of(context).inputDecorationTheme.focusedBorder,
+          ),
         )
       ]),
     );
@@ -93,7 +92,8 @@ class CustomeInputWithdrop extends StatelessWidget {
       Container(
         height: 65,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12), border: Border.all()),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(width: 1.3, color: kprimarycolor)),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child:

@@ -37,6 +37,7 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
@@ -46,7 +47,6 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Container(
-                color: Colors.white,
                 height: SizeConfig.blockSizeHorizantal! * 15,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -306,6 +306,7 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
   userDatePickwer() async {
     DateTime? _pickerDate = await showDatePicker(
       // currentDate: DateTime.now(),
+
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2020),
