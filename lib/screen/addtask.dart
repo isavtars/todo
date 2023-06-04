@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:intl/intl.dart';
 import 'package:sqllite/utils/sizeconfig.dart';
@@ -46,7 +47,7 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
                 horizontal: SizeConfig.blockSizeHorizantal! * 3),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Container(
+              SizedBox(
                 height: SizeConfig.blockSizeHorizantal! * 15,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -258,7 +259,11 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
                   CustomeBtn(
                     icons: Icons.create,
                     bthTitles: "Create",
-                    onpressed: () {},
+                    onpressed: () {
+                      Get.back();
+                      Get.snackbar(
+                          'Task Added', 'You will be reminded on time');
+                    },
                   )
                 ],
               ),
@@ -304,7 +309,7 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
   }
 
   userDatePickwer() async {
-    DateTime? _pickerDate = await showDatePicker(
+    DateTime? pickerDate = await showDatePicker(
       // currentDate: DateTime.now(),
 
       context: context,
@@ -312,9 +317,9 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
       firstDate: DateTime(2020),
       lastDate: DateTime(2121),
     );
-    if (_pickerDate != null) {
+    if (pickerDate != null) {
       setState(() {
-        _selectedDate = _pickerDate;
+        _selectedDate = pickerDate;
       });
     } else {
       print("erroer somthings");

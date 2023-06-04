@@ -71,37 +71,47 @@ class _HomeScreen2State extends State<HomeScreen2> {
           const SizedBox(
             height: 10,
           ),
-          Text(DateFormat("hh:mm a").format(selecteddate)),
+          Text(DateFormat("hh:mm a").format(selecteddate), style: const TextStyle(fontSize: 24),),
           const SizedBox(
-            height: 10,
+            height: 20,
           ),
-          Text(DateFormat.yMd().format(selecteddate)),
+          Text(DateFormat.yMd().format(selecteddate), style: const TextStyle(fontSize: 30),),
           const SizedBox(
-            height: 10,
+            height: 20,
           ),
-          Text(dropdownValue),
+          Text(dropdownValue, style: const TextStyle(fontSize: 24),),
           const SizedBox(
             height: 10,
           ),
 
-          DropdownButton<String>(
-            value: dropdownValue,
-            elevation: 16,
-            style: const TextStyle(color: Colors.deepPurple),
-            icon: const Icon(Icons.keyboard_arrow_down),
-            items:
-                dropedown_items.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-            onChanged: (String? value) {
-              // This is called when the user selects an item.
-              setState(() {
-                dropdownValue = value!;
-              });
-            },
+          Row(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('Show', style: TextStyle(fontSize: 16),),
+              const SizedBox(width: 10,),
+              DropdownButton<String>(
+                alignment: AlignmentDirectional.bottomStart,
+                value: dropdownValue,
+                elevation: 16,
+                style: const TextStyle(color: Colors.deepPurple, fontSize: 16),
+                icon: const Icon(Icons.keyboard_arrow_down),
+                items:
+                    dropedown_items.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (String? value) {
+                  // This is called when the user selects an item.
+                  setState(() {
+                    dropdownValue = value!;
+                  });
+                },
+              ),
+              const SizedBox(width: 10,),
+              const Text('Tasks', style: TextStyle(fontSize: 16),),
+            ],
           )
         ]),
       ),
@@ -109,8 +119,8 @@ class _HomeScreen2State extends State<HomeScreen2> {
   }
 
 //header
-  Container header({required IconData icon}) {
-    return Container(
+  SizedBox header({required IconData icon}) {
+    return SizedBox(
       height: SizeConfig.blockSizeHorizantal! * 15,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -152,8 +162,8 @@ class _HomeScreen2State extends State<HomeScreen2> {
   }
 
   //aadtask
-  Container _addtask() {
-    return Container(
+  SizedBox _addtask() {
+    return SizedBox(
       height: SizeConfig.blockSizeHorizantal! * 20,
       width: double.maxFinite,
       // color: Colors.red,
@@ -185,10 +195,11 @@ class _HomeScreen2State extends State<HomeScreen2> {
               icons: Icons.add,
               bthTitles: "Add Task",
               onpressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const AddTaskScreenn()));
+                Get.to(const AddTaskScreenn());
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => const AddTaskScreenn()));
               },
               height: SizeConfig.blockSizeVertical! * 7,
               width: SizeConfig.blockSizeHorizantal! * 37,
