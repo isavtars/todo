@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get.dart';
 
 import 'package:intl/intl.dart';
 import 'package:sqllite/logic/task_controller.dart';
@@ -348,7 +349,7 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
 
     if (_pickerDate != null) {
       setState(() {
-        _selectedDate = _pickerDate;
+        _selectedDate = pickerDate;
       });
     } else {
       print("erroer somthings");

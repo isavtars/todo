@@ -7,7 +7,8 @@ class CustomeBtn extends StatelessWidget {
       required this.icons,
       required this.bthTitles,
       this.height = 50.0,
-      this.width = 100.0, required this.onpressed});
+      this.width = 100.0,
+      required this.onpressed});
 
   final IconData icons;
   final String bthTitles;
