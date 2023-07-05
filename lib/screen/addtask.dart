@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:intl/intl.dart';
+import 'package:sqllite/logic/task_controller.dart';
+import 'package:sqllite/models/task_models.dart';
+import 'package:sqllite/screen/home_screen2.dart';
 import 'package:sqllite/utils/sizeconfig.dart';
 
 import '../utils/app_styles.dart';
@@ -14,28 +18,52 @@ class AddTaskScreenn extends StatefulWidget {
   State<AddTaskScreenn> createState() => _AddTaskScreennState();
 }
 
-List<String> dropedownitems = ["5", "10", "15", "20"];
-List<String> reapeatlist = ["None", "Daily", "Weekly", "monthly"];
-
 class _AddTaskScreennState extends State<AddTaskScreenn> {
   final titleController = TextEditingController();
   final noteController = TextEditingController();
-  final dateTimeController = TextEditingController();
-  final startTimeController = TextEditingController();
-  final endTimeController = TextEditingController();
 
   DateTime _selectedDate = DateTime.now();
   String startTime = DateFormat('hh:mm a').format(DateTime.now()).toString();
   String endTime = "10:05 pm";
+  final List<String> dropedownitems = ["5", "10", "15", "20"];
+  final List<String> reapeatlist = ["None", "Daily", "Weekly", "monthly"];
+  final List<Color> colorList = [Colors.red, Colors.green, Colors.blue];
 
-  String reminderdropvalue = dropedownitems.first;
+  String reminderdropvalue = "seleCted Value";
   String reaptedropvalue = "None";
   int selectecolor = 0;
 
   TimeOfDay selectedTime = TimeOfDay.now();
+  final _task_controller = Get.find<TaskController>();
+
+  //_addTaskToDb
+  _addTaskToDb() async {
+    if (titleController.text.isNotEmpty || noteController.text.isNotEmpty) {
+      int value = await _task_controller.addToTask(
+          task: Task(
+        title: titleController.text,
+        note: noteController.text,
+        date: _selectedDate.toIso8601String(),
+        startTime: startTime,
+        endTime: endTime,
+        reminder: "heloo dailly",
+        reapert: reaptedropvalue,
+        color: selectecolor,
+        isComplited: 0,
+      ));
+
+      print("'---------------------- $value --------------------------------");
+
+      Get.to(const HomeScreen2());
+    } else {
+      Get.snackbar("Required all the feilds", "Error");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
@@ -46,7 +74,7 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
                 horizontal: SizeConfig.blockSizeHorizantal! * 3),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Container(
+              SizedBox(
                 height: SizeConfig.blockSizeHorizantal! * 15,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -96,18 +124,19 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
                 title: "Note",
                 hintText: "note",
                 textinputType: TextInputType.text,
+                isMuliline: true,
               ),
+
               SizedBox(
                 height: SizeConfig.blockSizeVertical! * 2,
               ),
               CustomeInput(
-                titleController: dateTimeController,
                 title: "Date",
                 hintText: DateFormat.yMd().format(_selectedDate),
                 textinputType: TextInputType.text,
                 isPrefix: true,
                 superfixicon: Icons.calendar_today_outlined,
-                sufickcallback: userDatePickwer,
+                sufickcallback: userDatePicker,
               ),
               SizedBox(
                 height: SizeConfig.blockSizeVertical! * 2,
@@ -155,32 +184,34 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
                   title: "Reminder",
                   hintText: "$reminderdropvalue minutesearly",
                   // suffixIcon: Icons.keyboard_arrow_down,
-                  suffix: DropdownButton<String>(
-                    elevation: 0,
-                    iconSize: 32,
-                    style: kQuestrialRegular.copyWith(
-                        color: kprimarycolor, fontSize: 18),
-                    icon: const Icon(
-                      Icons.keyboard_arrow_down,
-                      color: kprimarycolor,
+                  suffix: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      elevation: 0,
+                      iconSize: 32,
+                      style: kQuestrialRegular.copyWith(
+                          color: kprimarycolor, fontSize: 18),
+                      icon: const Icon(
+                        Icons.keyboard_arrow_down,
+                        color: kprimarycolor,
+                      ),
+                      items: dropedownitems
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(
+                            value,
+                            style: kQuestrialRegular.copyWith(
+                                fontSize: 18, color: kprimarycolor),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (String? value) {
+                        // This is called when the user selects an item.
+                        setState(() {
+                          reminderdropvalue = value!;
+                        });
+                      },
                     ),
-                    items: dropedownitems
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(
-                          value,
-                          style: kQuestrialRegular.copyWith(
-                              fontSize: 18, color: kprimarycolor),
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (String? value) {
-                      // This is called when the user selects an item.
-                      setState(() {
-                        reminderdropvalue = value!;
-                      });
-                    },
                   )),
 
               SizedBox(
@@ -192,33 +223,35 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
                   title: "Reapate",
                   hintText: reaptedropvalue,
                   // suffixIcon: Icons.keyboard_arrow_down,
-                  suffix: DropdownButton<String>(
-                    elevation: 1,
-                    iconSize: 32,
-                    style: const TextStyle(
-                      color: Colors.grey,
+                  suffix: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      elevation: 1,
+                      iconSize: 32,
+                      style: const TextStyle(
+                        color: Colors.grey,
+                      ),
+                      icon: const Icon(
+                        Icons.keyboard_arrow_down,
+                        color: kprimarycolor,
+                      ),
+                      items: reapeatlist
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(
+                            value,
+                            style: kQuestrialRegular.copyWith(
+                                fontSize: 18, color: kprimarycolor),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (String? value) {
+                        // This is called when the user selects an item.
+                        setState(() {
+                          reaptedropvalue = value!;
+                        });
+                      },
                     ),
-                    icon: const Icon(
-                      Icons.keyboard_arrow_down,
-                      color: kprimarycolor,
-                    ),
-                    items: reapeatlist
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(
-                          value,
-                          style: kQuestrialRegular.copyWith(
-                              fontSize: 18, color: kprimarycolor),
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (String? value) {
-                      // This is called when the user selects an item.
-                      setState(() {
-                        reaptedropvalue = value!;
-                      });
-                    },
                   )),
 
               SizedBox(
@@ -241,11 +274,7 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
                           margin: const EdgeInsets.only(left: 10),
                           child: CircleAvatar(
                             radius: 16,
-                            backgroundColor: index == 0
-                                ? Colors.blue
-                                : index == 2
-                                    ? Colors.red
-                                    : Colors.green,
+                            backgroundColor: colorList[index],
                             child: selectecolor == index
                                 ? const Icon(
                                     Icons.done,
@@ -258,7 +287,7 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
                   CustomeBtn(
                     icons: Icons.create,
                     bthTitles: "Create",
-                    onpressed: () {},
+                    onpressed: _addTaskToDb,
                   )
                 ],
               ),
@@ -303,7 +332,7 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
             minute: int.parse(startTime.split(':')[1].split(" ")[0])));
   }
 
-  userDatePickwer() async {
+  userDatePicker() async {
     DateTime? _pickerDate = await showDatePicker(
       // currentDate: DateTime.now(),
 
@@ -311,7 +340,12 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
       initialDate: DateTime.now(),
       firstDate: DateTime(2020),
       lastDate: DateTime(2121),
+      // theme:ThemeData.light().copyWith(
+      //           colorScheme: ColorScheme.light().copyWith(
+      //             primary: Colors.green, // Set your desired color
+      //           ),)
     );
+
     if (_pickerDate != null) {
       setState(() {
         _selectedDate = _pickerDate;

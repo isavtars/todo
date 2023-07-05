@@ -8,6 +8,7 @@ class TodoThemsData {
   static final lightTheme = ThemeData(
     canvasColor: kDarkCardC,
     datePickerTheme: const DatePickerThemeData(
+        headerBackgroundColor: kprimarycolor,
         todayBorder: BorderSide(color: kprimarycolor),
         rangePickerSurfaceTintColor: kprimarycolor),
     textTheme: const TextTheme(
@@ -36,6 +37,7 @@ class TodoThemsData {
   static final darkTheme = ThemeData(
       canvasColor: kDarkCardC,
       datePickerTheme: const DatePickerThemeData(
+          headerBackgroundColor: kprimarycolor,
           todayBorder: BorderSide(color: kprimarycolor),
           rangePickerSurfaceTintColor: kprimarycolor),
       scaffoldBackgroundColor: kDarkScaffoldC,

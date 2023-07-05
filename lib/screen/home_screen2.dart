@@ -1,34 +1,39 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 import 'package:sqllite/utils/sizeconfig.dart';
-
+import '../logic/task_controller.dart';
 import '../logic/themchanger.dart';
 import '../utils/app_styles.dart';
 
 import 'addtask.dart';
 import 'widgets/customebtns.dart';
+import 'widgets/datetime.dart';
 
 class HomeScreen2 extends StatefulWidget {
   const HomeScreen2({super.key});
-
   @override
   State<HomeScreen2> createState() => _HomeScreen2State();
 }
 
-List<String> dropedown_items = ["5", "10", "15", "20"];
 bool changevalue = false;
-final changeThemes = Get.find<ThemModeChange>();
 
 class _HomeScreen2State extends State<HomeScreen2> {
   DateTime selecteddate = DateTime.now();
-  String dropdownValue = dropedown_items.first;
+  DateTime currentdate = DateTime.now();
 
   @override
   void initState() {
+    getsTask();
     super.initState();
+  }
+
+  final changeThemes = Get.find<ThemModeChange>();
+  final _taskController = Get.find<TaskController>();
+
+  getsTask() async {
+    await _taskController.getTasks();
   }
 
   @override
@@ -69,39 +74,103 @@ class _HomeScreen2State extends State<HomeScreen2> {
             ),
           ),
           const SizedBox(
-            height: 10,
+            height: 8,
           ),
-          Text(DateFormat("hh:mm a").format(selecteddate)),
-          const SizedBox(
-            height: 10,
-          ),
-          Text(DateFormat.yMd().format(selecteddate)),
-          const SizedBox(
-            height: 10,
-          ),
-          Text(dropdownValue),
-          const SizedBox(
-            height: 10,
-          ),
+          //fetch the data of databases
 
-          DropdownButton<String>(
-            value: dropdownValue,
-            elevation: 16,
-            style: const TextStyle(color: Colors.deepPurple),
-            icon: const Icon(Icons.keyboard_arrow_down),
-            items:
-                dropedown_items.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-            onChanged: (String? value) {
-              // This is called when the user selects an item.
-              setState(() {
-                dropdownValue = value!;
-              });
-            },
+          // Expanded(child: Obx(() {
+          //   return ListView.builder(
+          //       itemCount: _taskController.taskList.length,
+          //       itemBuilder: (context, index) {
+          //         return Text("${_taskController.taskList.length} heoll");
+          //       });
+          // }))
+
+          Expanded(child: Obx(() {
+            return ListView.builder(
+                itemCount: _taskController.taskList.length,
+                itemBuilder: (context, index) {
+                  print("${_taskController.taskList.length.toString()} kkkkss");
+                  return Container(
+                    decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black54,
+                              spreadRadius: 1,
+                              offset: Offset(5, 3),
+                              blurRadius: 7)
+                        ],
+                        color: Color.fromARGB(255, 214, 226, 235),
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    margin: const EdgeInsets.all(7),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 15),
+                    child: Row(
+                      children: [
+                        //left
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                _taskController.taskList[index].title
+                                    .toString(),
+                                style: kQuestrialBold.copyWith(
+                                    color: front3, fontSize: 18),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  const Icon(
+                                    Icons.punch_clock_rounded,
+                                    size: 18,
+                                    color: Color.fromARGB(255, 3, 41, 53),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    _taskController.taskList[index].startTime
+                                        .toString(),
+                                    style: kQuestrialBold.copyWith(
+                                        color: Color.fromARGB(255, 3, 41, 53),
+                                        fontSize: 16),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                      _taskController.taskList[index].endTime
+                                          .toString(),
+                                      style: kQuestrialSemibold.copyWith(
+                                          color: Color.fromARGB(255, 3, 41, 53),
+                                          fontSize: 16)),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                  _taskController.taskList[index].note
+                                      .toString(),
+                                  style: kQuestrialRegular.copyWith(
+                                      color: Color.fromARGB(255, 3, 41, 53),
+                                      fontSize: 17)),
+                            ],
+                          ),
+                        ),
+                        const Text("TODO")
+                      ],
+                      //right
+                    ),
+                  );
+                });
+          })),
+          const SizedBox(
+            height: 20,
           )
         ]),
       ),
@@ -167,7 +236,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "September 19,2021",
+                  "${formatDate(currentdate.toString())}",
                   style: kQuestrialMedium.copyWith(
                       fontSize: SizeConfig.blockSizeHorizantal! * 6),
                 ),
@@ -186,9 +255,11 @@ class _HomeScreen2State extends State<HomeScreen2> {
               bthTitles: "Add Task",
               onpressed: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const AddTaskScreenn()));
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AddTaskScreenn()),
+                );
+                _taskController.getTasks();
               },
               height: SizeConfig.blockSizeVertical! * 7,
               width: SizeConfig.blockSizeHorizantal! * 37,

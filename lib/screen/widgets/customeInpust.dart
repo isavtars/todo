@@ -4,17 +4,17 @@ import '../../utils/app_styles.dart';
 import '../../utils/sizeconfig.dart';
 
 class CustomeInput extends StatelessWidget {
-  const CustomeInput({
-    super.key,
-    this.titleController,
-    required this.title,
-    required this.hintText,
-    this.validators,
-    this.textinputType,
-    this.isPrefix = false,
-    this.sufickcallback,
-    this.superfixicon,
-  });
+  const CustomeInput(
+      {super.key,
+      this.titleController,
+      required this.title,
+      required this.hintText,
+      this.validators,
+      this.textinputType,
+      this.isPrefix = false,
+      this.sufickcallback,
+      this.superfixicon,
+      this.isMuliline = false});
 
   final TextEditingController? titleController;
   final String title;
@@ -24,6 +24,7 @@ class CustomeInput extends StatelessWidget {
   final bool isPrefix;
   final VoidCallback? sufickcallback;
   final IconData? superfixicon;
+  final bool isMuliline;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +40,7 @@ class CustomeInput extends StatelessWidget {
           height: SizeConfig.blockSizeVertical! * 1,
         ),
         TextFormField(
+          maxLines: isMuliline ? 2 : 1,
           validator: validators,
           controller: titleController,
           decoration: InputDecoration(

@@ -20,6 +20,14 @@ const kDarkGreenColor = Color(0xff198786);
 const kDarkGreenBackC = Color(0xff027273);
 const kDarkGreenNavIconC = Colors.white;
 
+const front1 = Color(0xffE2D1F9);
+const background1 = Color(0xff990011);
+
+const front2 = Color(0xffffffff);
+const background2 = Color(0xff8AAAE5);
+
+const front3 = Color(0xff0d1137);
+const background3 = Color(0xffe52165);
 
 final kQuestrialsBold = GoogleFonts.questrial(
   fontWeight: FontWeight.w700,
