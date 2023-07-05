@@ -8,6 +8,7 @@ class CustomeBtn extends StatelessWidget {
       required this.bthTitles,
       this.height = 50.0,
       this.width = 100.0,
+      this.color = kprimarycolor,
       required this.onpressed});
 
   final IconData icons;
@@ -15,7 +16,7 @@ class CustomeBtn extends StatelessWidget {
   final double height;
   final double width;
   final VoidCallback onpressed;
-
+  final Color color;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -24,7 +25,7 @@ class CustomeBtn extends StatelessWidget {
         height: height,
         width: width,
         decoration: BoxDecoration(
-            color: kprimarycolor, borderRadius: BorderRadius.circular(22)),
+            color: color, borderRadius: BorderRadius.circular(22)),
         child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,

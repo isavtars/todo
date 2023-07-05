@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get.dart';
 
 import 'package:intl/intl.dart';
 import 'package:sqllite/logic/task_controller.dart';
@@ -44,7 +43,7 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
           task: Task(
         title: titleController.text,
         note: noteController.text,
-        date: _selectedDate.toIso8601String(),
+        date: DateFormat.yMd().format(_selectedDate),
         startTime: startTime,
         endTime: endTime,
         reminder: "heloo dailly",
@@ -341,10 +340,6 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
       initialDate: DateTime.now(),
       firstDate: DateTime(2020),
       lastDate: DateTime(2121),
-      // theme:ThemeData.light().copyWith(
-      //           colorScheme: ColorScheme.light().copyWith(
-      //             primary: Colors.green, // Set your desired color
-      //           ),)
     );
 
     if (_pickerDate != null) {

@@ -1,10 +1,13 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import 'package:sqllite/utils/sizeconfig.dart';
 import '../logic/task_controller.dart';
 import '../logic/themchanger.dart';
+import '../models/task_models.dart';
 import '../utils/app_styles.dart';
 
 import 'addtask.dart';
@@ -78,95 +81,256 @@ class _HomeScreen2State extends State<HomeScreen2> {
           ),
           //fetch the data of databases
 
-          // Expanded(child: Obx(() {
-          //   return ListView.builder(
-          //       itemCount: _taskController.taskList.length,
-          //       itemBuilder: (context, index) {
-          //         return Text("${_taskController.taskList.length} heoll");
-          //       });
-          // }))
-
           Expanded(child: Obx(() {
             return ListView.builder(
                 itemCount: _taskController.taskList.length,
                 itemBuilder: (context, index) {
                   print("${_taskController.taskList.length.toString()} kkkkss");
-                  return Container(
-                    decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black54,
-                              spreadRadius: 1,
-                              offset: Offset(5, 3),
-                              blurRadius: 7)
-                        ],
-                        color: Color.fromARGB(255, 214, 226, 235),
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    margin: const EdgeInsets.all(7),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 15),
-                    child: Row(
-                      children: [
-                        //left
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                _taskController.taskList[index].title
-                                    .toString(),
-                                style: kQuestrialBold.copyWith(
-                                    color: front3, fontSize: 18),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
+
+                  Task tasked = _taskController.taskList[index];
+                  print(tasked.toJson());
+
+                  if (tasked.reapert == "Daily") {
+                    return AnimationConfiguration.staggeredList(
+                      position: index,
+                      child: SlideAnimation(
+                        child: FadeInAnimation(
+                          child: GestureDetector(
+                            onTap: () {
+                              bottomsheet(context, index);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.black54,
+                                        spreadRadius: 1,
+                                        offset: Offset(5, 3),
+                                        blurRadius: 7)
+                                  ],
+                                  color: Color.fromARGB(255, 214, 226, 235),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
+                              margin: const EdgeInsets.all(7),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 15),
+                              child: Row(
                                 children: [
-                                  const Icon(
-                                    Icons.punch_clock_rounded,
-                                    size: 18,
-                                    color: Color.fromARGB(255, 3, 41, 53),
+                                  //left
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          _taskController.taskList[index].title
+                                              .toString(),
+                                          style: kQuestrialBold.copyWith(
+                                              color: front3, fontSize: 18),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            const Icon(
+                                              Icons.punch_clock_rounded,
+                                              size: 18,
+                                              color: Color.fromARGB(
+                                                  255, 3, 41, 53),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              _taskController
+                                                  .taskList[index].startTime
+                                                  .toString(),
+                                              style: kQuestrialBold.copyWith(
+                                                  color: Color.fromARGB(
+                                                      255, 3, 41, 53),
+                                                  fontSize: 16),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                                _taskController
+                                                    .taskList[index].endTime
+                                                    .toString(),
+                                                style:
+                                                    kQuestrialSemibold.copyWith(
+                                                        color: Color.fromARGB(
+                                                            255, 3, 41, 53),
+                                                        fontSize: 16)),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                            _taskController.taskList[index].note
+                                                .toString(),
+                                            style: kQuestrialRegular.copyWith(
+                                                color: Color.fromARGB(
+                                                    255, 3, 41, 53),
+                                                fontSize: 17)),
+                                      ],
+                                    ),
                                   ),
-                                  const SizedBox(
-                                    width: 10,
+
+                                  SizedBox(
+                                    height: 50,
+                                    child: Divider(
+                                      height: 10,
+                                    ),
                                   ),
-                                  Text(
-                                    _taskController.taskList[index].startTime
-                                        .toString(),
-                                    style: kQuestrialBold.copyWith(
-                                        color: Color.fromARGB(255, 3, 41, 53),
-                                        fontSize: 16),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                      _taskController.taskList[index].endTime
-                                          .toString(),
-                                      style: kQuestrialSemibold.copyWith(
-                                          color: Color.fromARGB(255, 3, 41, 53),
-                                          fontSize: 16)),
+                                  RotatedBox(
+                                    quarterTurns: 3,
+                                    child: Text(
+                                        " ${_taskController.taskList[index].isComplited == 1 ? "Completed" : "Todo"}",
+                                        style: kQuestrialMedium.copyWith(
+                                          fontSize: 16,
+                                          color: _taskController.taskList[index]
+                                                      .isComplited ==
+                                                  1
+                                              ? Colors.green
+                                              : Colors.red,
+                                        )),
+                                  )
                                 ],
+                                //right
                               ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                  _taskController.taskList[index].note
-                                      .toString(),
-                                  style: kQuestrialRegular.copyWith(
-                                      color: Color.fromARGB(255, 3, 41, 53),
-                                      fontSize: 17)),
-                            ],
+                            ),
                           ),
                         ),
-                        const Text("TODO")
-                      ],
-                      //right
-                    ),
-                  );
+                      ),
+                    );
+                  }
+
+                  if (tasked.date == DateFormat.yMd().format(selecteddate)) {
+                    return AnimationConfiguration.staggeredList(
+                      position: index,
+                      child: SlideAnimation(
+                        child: FadeInAnimation(
+                          child: GestureDetector(
+                            onTap: () {
+                              bottomsheet(context, index);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.black54,
+                                        spreadRadius: 1,
+                                        offset: Offset(5, 3),
+                                        blurRadius: 7)
+                                  ],
+                                  color: Color.fromARGB(255, 214, 226, 235),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
+                              margin: const EdgeInsets.all(7),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 15),
+                              child: Row(
+                                children: [
+                                  //left
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          _taskController.taskList[index].title
+                                              .toString(),
+                                          style: kQuestrialBold.copyWith(
+                                              color: front3, fontSize: 18),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            const Icon(
+                                              Icons.punch_clock_rounded,
+                                              size: 18,
+                                              color: Color.fromARGB(
+                                                  255, 3, 41, 53),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              _taskController
+                                                  .taskList[index].startTime
+                                                  .toString(),
+                                              style: kQuestrialBold.copyWith(
+                                                  color: Color.fromARGB(
+                                                      255, 3, 41, 53),
+                                                  fontSize: 16),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                                _taskController
+                                                    .taskList[index].endTime
+                                                    .toString(),
+                                                style:
+                                                    kQuestrialSemibold.copyWith(
+                                                        color: Color.fromARGB(
+                                                            255, 3, 41, 53),
+                                                        fontSize: 16)),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                            _taskController.taskList[index].note
+                                                .toString(),
+                                            style: kQuestrialRegular.copyWith(
+                                                color: Color.fromARGB(
+                                                    255, 3, 41, 53),
+                                                fontSize: 17)),
+                                      ],
+                                    ),
+                                  ),
+
+                                  SizedBox(
+                                    height: 50,
+                                    child: Divider(
+                                      height: 10,
+                                    ),
+                                  ),
+                                  RotatedBox(
+                                    quarterTurns: 3,
+                                    child: Text(
+                                        " ${_taskController.taskList[index].isComplited == 1 ? "Completed" : "Todo"}",
+                                        style: kQuestrialMedium.copyWith(
+                                          fontSize: 16,
+                                          color: _taskController.taskList[index]
+                                                      .isComplited ==
+                                                  1
+                                              ? Colors.green
+                                              : Colors.red,
+                                        )),
+                                  )
+                                ],
+                                //right
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  } else {
+                    return Container();
+                  }
                 });
           })),
           const SizedBox(
@@ -175,6 +339,73 @@ class _HomeScreen2State extends State<HomeScreen2> {
         ]),
       ),
     );
+  }
+
+  PersistentBottomSheetController<dynamic> bottomsheet(
+      BuildContext context, int index) {
+    return showBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+              padding: const EdgeInsets.all(20),
+              height: 330,
+              width: double.infinity,
+              child: Column(
+                children: [
+                  _taskController.taskList[index].isComplited == 1
+                      ? Container()
+                      : CustomeBtn(
+                          width: double.infinity,
+                          color: Colors.purple,
+                          icons: Icons.done,
+                          bthTitles: "Task Completed",
+                          onpressed: () {
+                            _taskController.makeTaskCompleted(
+                                _taskController.taskList[index].id!);
+                            _taskController.getTasks();
+                            Get.back();
+                          }),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  CustomeBtn(
+                      color: Colors.red,
+                      width: double.infinity,
+                      icons: Icons.delete,
+                      bthTitles: "Delete",
+                      onpressed: () {
+                        _taskController
+                            .deleteTask(_taskController.taskList[index]);
+                        _taskController.getTasks();
+                        Navigator.pop(context);
+                      }),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  CustomeBtn(
+                      width: double.infinity,
+                      icons: Icons.update,
+                      bthTitles: "Update",
+                      onpressed: () {
+                        Get.to(const AddTaskScreenn());
+                        // _taskController.getTasks();
+                        // Navigator.pop(context);
+                      }),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  CustomeBtn(
+                      width: double.infinity,
+                      color: Colors.blue,
+                      icons: Icons.close,
+                      bthTitles: "close",
+                      onpressed: () {
+                        _taskController.getTasks();
+                        Navigator.pop(context);
+                      })
+                ],
+              ));
+        });
   }
 
 //header

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart' as sql;
+import 'package:sqflite/sqflite.dart';
 
 import '../models/task_models.dart';
 
@@ -48,14 +49,58 @@ createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
   static Future<List<Map<String, dynamic>>> getItems() async {
     debugPrint("Queery Methods calls");
     final db = await SQLHelper.db();
-    return db.query("tasks");
+    return db.query("tasks", orderBy: "id");
   }
 
-  // //get data by id
-  // static Future<List<Map<String, dynamic>>> getItem(int id) async {
-  //   final db = await SQLHelper.db();
-  //   return db.query("items", where: "id = ?", whereArgs: [id], limit: 1);
-  // }
+//delete by id
+  static deleteItem(Task task) async {
+    debugPrint("delete methods calls");
+    final db = await SQLHelper.db();
+    return await db.delete(
+      'tasks',
+      where: 'id = ?',
+      whereArgs: [task.id],
+    );
+  }
+
+//lets update items
+  static Future<int> updateItems(Task task) async {
+    final db = await SQLHelper.db();
+    return db.update(
+      'tasks',
+      task.toJson(),
+      where: "id = ?",
+      whereArgs: [task.id],
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  //get data by id
+  static Future<List<Map<String, dynamic>>> getItem(Task task) async {
+    final db = await SQLHelper.db();
+    return db.query("tasks", where: "id = ?", whereArgs: [task.id], limit: 1);
+  }
+
+  //update TaskCompletes
+
+//   static updateCompleted(int id) async {
+//     final db = await SQLHelper.db();
+//     return db.rawUpdate('''
+//   UPDATE tasks,
+//   SET isComplited = ?
+//   WHERE id = ?
+
+// ''', [1, id]);
+//   }
+
+  static Future<int> updateCompleted(int id) async {
+    final db = await SQLHelper.db();
+    return db.rawUpdate('''
+    UPDATE tasks
+    SET isComplited = ?
+    WHERE id = ?
+  ''', [1, id]);
+  }
 
   // static Future<int> updateItems(
   //     int id, String title, String description) async {
@@ -74,20 +119,5 @@ createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
   //     conflictAlgorithm: ConflictAlgorithm.replace,
   //   );
   //   return result;
-  // }
-
-  // //delete by id
-  // static Future<void> deleteItems(int id) async {
-  //   final db = await SQLHelper.db();
-
-  //   try {
-  //     await db.delete(
-  //       'items',
-  //       where: 'id = ?',
-  //       whereArgs: [id],
-  //     );
-  //   } catch (e) {
-  //     print("something went Wrong when delete items $e");
-  //   }
   // }
 }
