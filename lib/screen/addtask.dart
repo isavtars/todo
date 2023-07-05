@@ -349,7 +349,7 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
 
     if (_pickerDate != null) {
       setState(() {
-        _selectedDate = pickerDate;
+        _selectedDate = _pickerDate;
       });
     } else {
       print("erroer somthings");

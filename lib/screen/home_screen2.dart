@@ -172,36 +172,6 @@ class _HomeScreen2State extends State<HomeScreen2> {
           const SizedBox(
             height: 10,
           ),
-
-          Row(
-            // mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('Show', style: TextStyle(fontSize: 16),),
-              const SizedBox(width: 10,),
-              DropdownButton<String>(
-                alignment: AlignmentDirectional.bottomStart,
-                value: dropdownValue,
-                elevation: 16,
-                style: const TextStyle(color: Colors.deepPurple, fontSize: 16),
-                icon: const Icon(Icons.keyboard_arrow_down),
-                items:
-                    dropedown_items.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                onChanged: (String? value) {
-                  // This is called when the user selects an item.
-                  setState(() {
-                    dropdownValue = value!;
-                  });
-                },
-              ),
-              const SizedBox(width: 10,),
-              const Text('Tasks', style: TextStyle(fontSize: 16),),
-            ],
-          )
         ]),
       ),
     );
