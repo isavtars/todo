@@ -28,39 +28,37 @@ class CustomeInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(
-          title,
-          style: kQuestrialRegular.copyWith(
-              fontWeight: FontWeight.w500,
-              fontSize: SizeConfig.blockSizeHorizantal! * 6),
-        ),
-        SizedBox(
-          height: SizeConfig.blockSizeVertical! * 1,
-        ),
-        TextFormField(
-          maxLines: isMuliline ? 2 : 1,
-          validator: validators,
-          controller: titleController,
-          decoration: InputDecoration(
-            // isPrefix?Prefix
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text(
+        title,
+        style: kQuestrialRegular.copyWith(
+            fontWeight: FontWeight.w500,
+            fontSize: SizeConfig.blockSizeHorizantal! * 6),
+      ),
+      SizedBox(
+        height: SizeConfig.blockSizeVertical! * 1,
+      ),
+      TextFormField(
+        maxLines: isMuliline ? 2 : 1,
+        validator: validators,
+        controller: titleController,
+        decoration: InputDecoration(
+          // isPrefix?Prefix
 
-            suffixIcon: isPrefix
-                ? IconButton(
-                    onPressed: sufickcallback,
-                    icon: Icon(
-                      superfixicon,
-                      color: kprimarycolor,
-                    ))
-                : null,
-            hintText: hintText,
-            enabledBorder: Theme.of(context).inputDecorationTheme.enabledBorder,
-            focusedBorder: Theme.of(context).inputDecorationTheme.focusedBorder,
-          ),
-        )
-      ]),
-    );
+          suffixIcon: isPrefix
+              ? IconButton(
+                  onPressed: sufickcallback,
+                  icon: Icon(
+                    superfixicon,
+                    color: kprimarycolor,
+                  ))
+              : null,
+          hintText: hintText,
+          enabledBorder: Theme.of(context).inputDecorationTheme.enabledBorder,
+          focusedBorder: Theme.of(context).inputDecorationTheme.focusedBorder,
+        ),
+      )
+    ]);
   }
 }
 

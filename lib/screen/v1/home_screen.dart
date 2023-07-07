@@ -31,14 +31,14 @@
 //   @override
 //   void initState() {
 //     _refersJournals();
-//     debugPrint("number of items ${_jornals.length}");
+//     logger.d("number of items ${_jornals.length}");
 //     super.initState();
 //   }
 
 //   Future<void> _addItem() async {
 //     if (_desc.text.isNotEmpty || _text.text.isNotEmpty) {
 //       await SQLHelper.createItems(_text.text, _desc.text);
-//       debugPrint("number of items ${_jornals.length}");
+//       logger.d("number of items ${_jornals.length}");
 //       _refersJournals();
 //     } else {
 //       showSnackbar(context, "please enter all the feild");

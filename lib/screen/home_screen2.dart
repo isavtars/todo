@@ -60,23 +60,20 @@ class _HomeScreen2State extends State<HomeScreen2> {
           //aadtask
           _addtask(),
 
-          Container(
-            // height: SizeConfig.blockSizeHorizantal! * 25,
-            child: DatePicker(
-              DateTime.now(),
-              height: 100,
-              width: 70,
-              initialSelectedDate: DateTime.now(),
-              selectedTextColor: Colors.white,
-              selectionColor: kprimarycolor,
-              dateTextStyle: kQuestrialSemibold.copyWith(
-                  fontSize: SizeConfig.blockSizeHorizantal! * 5),
-              onDateChange: (seldate) {
-                setState(() {
-                  selecteddate = seldate;
-                });
-              },
-            ),
+          DatePicker(
+            DateTime.now(),
+            height: 100,
+            width: 70,
+            initialSelectedDate: DateTime.now(),
+            selectedTextColor: Colors.white,
+            selectionColor: kprimarycolor,
+            dateTextStyle: kQuestrialSemibold.copyWith(
+                fontSize: SizeConfig.blockSizeHorizantal! * 5),
+            onDateChange: (seldate) {
+              setState(() {
+                selecteddate = seldate;
+              });
+            },
           ),
           const SizedBox(
             height: 8,
