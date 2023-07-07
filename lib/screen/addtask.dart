@@ -333,7 +333,7 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
   }
 
   userDatePicker() async {
-    DateTime? _pickerDate = await showDatePicker(
+    DateTime? pickerDate = await showDatePicker(
       // currentDate: DateTime.now(),
 
       context: context,
@@ -342,9 +342,9 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
       lastDate: DateTime(2121),
     );
 
-    if (_pickerDate != null) {
+    if (pickerDate != null) {
       setState(() {
-        _selectedDate = _pickerDate;
+        _selectedDate = pickerDate;
       });
     } else {
       print("erroer somthings");

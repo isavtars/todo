@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
 
 import 'package:sqllite/utils/sizeconfig.dart';
 import '../logic/task_controller.dart';
@@ -21,6 +22,7 @@ class HomeScreen2 extends StatefulWidget {
 }
 
 bool changevalue = false;
+var logger = Logger();
 
 class _HomeScreen2State extends State<HomeScreen2> {
   DateTime selecteddate = DateTime.now();
@@ -85,10 +87,10 @@ class _HomeScreen2State extends State<HomeScreen2> {
             return ListView.builder(
                 itemCount: _taskController.taskList.length,
                 itemBuilder: (context, index) {
-                  print("${_taskController.taskList.length.toString()} kkkkss");
+                  logger.d("${_taskController.taskList.length.toString()} kkkkss");
 
                   Task tasked = _taskController.taskList[index];
-                  print(tasked.toJson());
+                  logger.i(tasked.toJson());
 
                   if (tasked.reapert == "Daily") {
                     return AnimationConfiguration.staggeredList(
@@ -100,7 +102,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
                               bottomsheet(context, index);
                             },
                             child: Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                   boxShadow: [
                                     BoxShadow(
                                         color: Colors.black54,
@@ -149,7 +151,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
                                                   .taskList[index].startTime
                                                   .toString(),
                                               style: kQuestrialBold.copyWith(
-                                                  color: Color.fromARGB(
+                                                  color: const Color.fromARGB(
                                                       255, 3, 41, 53),
                                                   fontSize: 16),
                                             ),
@@ -162,7 +164,8 @@ class _HomeScreen2State extends State<HomeScreen2> {
                                                     .toString(),
                                                 style:
                                                     kQuestrialSemibold.copyWith(
-                                                        color: Color.fromARGB(
+                                                        color: const Color
+                                                                .fromARGB(
                                                             255, 3, 41, 53),
                                                         fontSize: 16)),
                                           ],
@@ -174,14 +177,14 @@ class _HomeScreen2State extends State<HomeScreen2> {
                                             _taskController.taskList[index].note
                                                 .toString(),
                                             style: kQuestrialRegular.copyWith(
-                                                color: Color.fromARGB(
+                                                color: const Color.fromARGB(
                                                     255, 3, 41, 53),
                                                 fontSize: 17)),
                                       ],
                                     ),
                                   ),
 
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 50,
                                     child: Divider(
                                       height: 10,
@@ -220,7 +223,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
                               bottomsheet(context, index);
                             },
                             child: Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                   boxShadow: [
                                     BoxShadow(
                                         color: Colors.black54,
@@ -269,7 +272,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
                                                   .taskList[index].startTime
                                                   .toString(),
                                               style: kQuestrialBold.copyWith(
-                                                  color: Color.fromARGB(
+                                                  color: const Color.fromARGB(
                                                       255, 3, 41, 53),
                                                   fontSize: 16),
                                             ),
@@ -282,7 +285,8 @@ class _HomeScreen2State extends State<HomeScreen2> {
                                                     .toString(),
                                                 style:
                                                     kQuestrialSemibold.copyWith(
-                                                        color: Color.fromARGB(
+                                                        color: const Color
+                                                                .fromARGB(
                                                             255, 3, 41, 53),
                                                         fontSize: 16)),
                                           ],
@@ -294,14 +298,14 @@ class _HomeScreen2State extends State<HomeScreen2> {
                                             _taskController.taskList[index].note
                                                 .toString(),
                                             style: kQuestrialRegular.copyWith(
-                                                color: Color.fromARGB(
+                                                color: const Color.fromARGB(
                                                     255, 3, 41, 53),
                                                 fontSize: 17)),
                                       ],
                                     ),
                                   ),
 
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 50,
                                     child: Divider(
                                       height: 10,
@@ -418,7 +422,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
         children: [
           IconButton(
             onPressed: () {
-              print(changeThemes.isDarkMode(context));
+              logger.d(changeThemes.isDarkMode(context));
               if (changeThemes.isDarkMode(context) == true) {
                 setState(() {
                   changevalue = false;
