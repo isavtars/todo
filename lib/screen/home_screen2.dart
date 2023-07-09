@@ -9,6 +9,7 @@ import 'package:sqllite/utils/sizeconfig.dart';
 import '../logic/task_controller.dart';
 import '../logic/themchanger.dart';
 import '../models/task_models.dart';
+import '../notifaction/notifications_hepler.dart';
 import '../utils/app_styles.dart';
 
 import 'addtask.dart';
@@ -28,10 +29,13 @@ class _HomeScreen2State extends State<HomeScreen2> {
   DateTime selecteddate = DateTime.now();
   DateTime currentdate = DateTime.now();
 
+  NotificationHelper notiFiHelper = NotificationHelper();
   @override
   void initState() {
     getsTask();
     super.initState();
+    notiFiHelper.initilizationsNotifications();
+    notiFiHelper.requestAndroidPermissions();
   }
 
   final changeThemes = Get.find<ThemModeChange>();
@@ -84,12 +88,21 @@ class _HomeScreen2State extends State<HomeScreen2> {
             return ListView.builder(
                 itemCount: _taskController.taskList.length,
                 itemBuilder: (context, index) {
-                  logger.d("${_taskController.taskList.length.toString()} kkkkss");
+                  logger.d(
+                      "${_taskController.taskList.length.toString()} kkkkss");
 
                   Task tasked = _taskController.taskList[index];
-                  logger.i(tasked.toJson());
 
                   if (tasked.reapert == "Daily") {
+                    DateTime mydate =
+                        DateFormat.jm().parse(tasked.startTime.toString());
+
+                    var myTime = DateFormat("HH:mm").format(mydate);
+                    notiFiHelper.scheduledNotification(
+                        int.parse(myTime.toString().split(":")[0]),
+                        int.parse(myTime.toString().split(":")[1]),
+                        tasked);
+
                     return AnimationConfiguration.staggeredList(
                       position: index,
                       child: SlideAnimation(
@@ -135,7 +148,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
                                               MainAxisAlignment.start,
                                           children: [
                                             const Icon(
-                                              Icons.punch_clock_rounded,
+                                              Icons.access_time_rounded,
                                               size: 18,
                                               color: Color.fromARGB(
                                                   255, 3, 41, 53),
@@ -256,7 +269,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
                                               MainAxisAlignment.start,
                                           children: [
                                             const Icon(
-                                              Icons.punch_clock_rounded,
+                                              Icons.access_time_rounded,
                                               size: 18,
                                               color: Color.fromARGB(
                                                   255, 3, 41, 53),
@@ -420,6 +433,13 @@ class _HomeScreen2State extends State<HomeScreen2> {
           IconButton(
             onPressed: () {
               logger.d(changeThemes.isDarkMode(context));
+
+              notiFiHelper.displayNotfications(
+                  title: "ThemeChange",
+                  body: changeThemes.isDarkMode(context) != true
+                      ? "Activited DarkMode"
+                      : "Activited whiteMode");
+
               if (changeThemes.isDarkMode(context) == true) {
                 setState(() {
                   changevalue = false;

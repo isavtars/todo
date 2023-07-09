@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:logger/logger.dart';
 
 const Color kprimarycolor = Color(0xff38B88B);
 const Color ksecondaryColor = Color(0xff333A4D);
@@ -48,3 +49,5 @@ final kQuestrialMedium = GoogleFonts.questrial(
 final kQuestrialRegular = GoogleFonts.questrial(
   fontWeight: FontWeight.w400,
 );
+
+var  loggers = Logger();
