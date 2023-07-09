@@ -1,12 +1,15 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:sqllite/logic/bainding/bainding.dart';
 import 'package:sqllite/utils/app_styles.dart';
-
 import 'logic/themchanger.dart';
 import 'screen/splashscreen.dart';
 import 'utils/todoapp_themes.dart';
+
+
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
