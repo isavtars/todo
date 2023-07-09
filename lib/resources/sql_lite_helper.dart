@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:sqflite/sqflite.dart';
 
@@ -9,6 +10,7 @@ import '../models/task_models.dart';
 String path = "todo.db";
 int? version = 2;
 String tableName = "tasks";
+var logger = Logger();
 
 class SQLHelper {
   //creating database table
@@ -33,28 +35,28 @@ createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
   static Future<sql.Database> db() async {
     return sql.openDatabase("todo.db", version: 1,
         onCreate: (sql.Database database, int version) async {
-      debugPrint("...creating the todo table......");
+      logger.d("...creating the todo table......");
       await createTables(database);
     });
   }
 
   //insert task to the Databases
   static Future<int> createTask(Task task) async {
-    debugPrint("createTask Methods calls");
+    logger.d("createTask Methods calls");
     final db = await SQLHelper.db();
     return await db.insert("tasks", task.toJson());
   }
 
   //get data from database
   static Future<List<Map<String, dynamic>>> getItems() async {
-    debugPrint("Queery Methods calls");
+    logger.d("Queery Methods calls");
     final db = await SQLHelper.db();
     return db.query("tasks", orderBy: "id");
   }
 
 //delete by id
   static deleteItem(Task task) async {
-    debugPrint("delete methods calls");
+    logger.d("delete methods calls");
     final db = await SQLHelper.db();
     return await db.delete(
       'tasks',

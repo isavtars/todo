@@ -8,7 +8,7 @@ import 'package:sqllite/screen/home_screen2.dart';
 import 'package:sqllite/utils/sizeconfig.dart';
 
 import '../utils/app_styles.dart';
-import 'widgets/customeInpust.dart';
+import 'widgets/custom_inputs.dart';
 import 'widgets/customebtns.dart';
 
 class AddTaskScreenn extends StatefulWidget {
@@ -52,7 +52,8 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
         isComplited: 0,
       ));
 
-      print("'---------------------- $value --------------------------------");
+      logger
+          .d("'---------------------- $value --------------------------------");
 
       Get.to(const HomeScreen2());
     } else {
@@ -308,16 +309,16 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
     String formateTime = pickedTime.format(context);
 
     if (pickedTime == null) {
-      debugPrint("Time Cancled");
+      logger.d("Time Cancled");
     } else if (isStartTime == true) {
       setState(() {
         startTime = formateTime;
-        print(startTime);
+        logger.d(startTime);
       });
     } else if (isStartTime == false) {
       setState(() {
         endTime = formateTime;
-        print(endTime);
+        logger.d(endTime);
       });
     }
   }
@@ -333,7 +334,7 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
   }
 
   userDatePicker() async {
-    DateTime? _pickerDate = await showDatePicker(
+    DateTime? pickerDate = await showDatePicker(
       // currentDate: DateTime.now(),
 
       context: context,
@@ -342,12 +343,12 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
       lastDate: DateTime(2121),
     );
 
-    if (_pickerDate != null) {
+    if (pickerDate != null) {
       setState(() {
-        _selectedDate = _pickerDate;
+        _selectedDate = pickerDate;
       });
     } else {
-      print("erroer somthings");
+      logger.d("erroer somthings");
     }
   }
 }
