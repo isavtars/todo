@@ -15,8 +15,7 @@ sqflite
 
 
 ## ui/ux
-![Test Image 4](https://github.com/isavtars/todo/blob/master/Gamepad.png)
-
+![Test Image 4](https://github.com/isavtars/todo/blob/master/prototye.png)
 
 
 
