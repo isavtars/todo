@@ -36,6 +36,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
     super.initState();
     notiFiHelper.initilizationsNotifications();
     notiFiHelper.requestAndroidPermissions();
+    notiFiHelper.checkForNotification();
   }
 
   final changeThemes = Get.find<ThemModeChange>();
@@ -88,20 +89,22 @@ class _HomeScreen2State extends State<HomeScreen2> {
             return ListView.builder(
                 itemCount: _taskController.taskList.length,
                 itemBuilder: (context, index) {
-                  logger.d(
-                      "${_taskController.taskList.length.toString()} kkkkss");
+                  print("${_taskController.taskList.length.toString()} kkkkss");
 
                   Task tasked = _taskController.taskList[index];
+                  logger.i('${tasked.toJson()}');
 
                   if (tasked.reapert == "Daily") {
+                    loggers.i("This is daily tasked");
                     DateTime mydate =
                         DateFormat.jm().parse(tasked.startTime.toString());
-
-                    var myTime = DateFormat("HH:mm").format(mydate);
+                    var myTime = DateFormat("hh:mm").format(mydate);
                     notiFiHelper.scheduledNotification(
                         int.parse(myTime.toString().split(":")[0]),
                         int.parse(myTime.toString().split(":")[1]),
                         tasked);
+
+                    loggers.i("$myTime");
 
                     return AnimationConfiguration.staggeredList(
                       position: index,
@@ -224,6 +227,14 @@ class _HomeScreen2State extends State<HomeScreen2> {
                   }
 
                   if (tasked.date == DateFormat.yMd().format(selecteddate)) {
+                    // loggers.i("This is daily tasked");
+                    // DateTime mydate =
+                    //     DateFormat.jm().parse(tasked.startTime.toString());
+                    // var myTime = DateFormat("hh:mm").format(mydate);
+                    // notiFiHelper.scheduledNotification(
+                    //     int.parse(myTime.toString().split(":")[0]),
+                    //     int.parse(myTime.toString().split(":")[1]),
+                    //     tasked);
                     return AnimationConfiguration.staggeredList(
                       position: index,
                       child: SlideAnimation(

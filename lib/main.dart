@@ -1,18 +1,17 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:sqllite/logic/bainding/bainding.dart';
 import 'package:sqllite/utils/app_styles.dart';
+import 'package:timezone/data/latest_10y.dart';
+
 import 'logic/themchanger.dart';
 import 'screen/splashscreen.dart';
 import 'utils/todoapp_themes.dart';
 
-
-
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  initializeTimeZones();
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: kprimarycolor, systemNavigationBarColor: kprimarycolor));

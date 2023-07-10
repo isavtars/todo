@@ -46,7 +46,7 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
         date: DateFormat.yMd().format(_selectedDate),
         startTime: startTime,
         endTime: endTime,
-        reminder: "heloo dailly",
+        reminder: "Heloo babya",
         reapert: reaptedropvalue,
         color: selectecolor,
         isComplited: 0,

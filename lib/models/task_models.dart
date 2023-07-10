@@ -1,6 +1,7 @@
 class Task {
   final int? id;
-  final String title, date, startTime, endTime, reminder, reapert, note;
+  final String title, date, startTime, endTime, reapert, note;
+  final String reminder;
 
   final int? isComplited;
   final int color;
