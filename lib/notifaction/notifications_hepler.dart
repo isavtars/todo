@@ -53,7 +53,7 @@ class NotificationHelper {
 
   ///sedulernotifications
   scheduledNotification(int hours, int minutes, Task task) async {
-    loggers.i("thi is scheduledNotification");
+    loggers.i("thi is scheduledNotification ${task.id}");
     AndroidNotificationDetails androidDetails =
         const AndroidNotificationDetails("Todo App", "Todo App",
             priority: Priority.max, importance: Importance.max);
@@ -77,7 +77,7 @@ class NotificationHelper {
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.wallClockTime,
       matchDateTimeComponents: DateTimeComponents.time,
-      payload: "${task.title}|${task.note}|${task.id}|",
+      payload: "notification-payload",
     );
   }
 
@@ -146,6 +146,7 @@ class NotificationHelper {
       }
     }
   }
+
   //
   //request permissions
   Future<void> requestAndroidPermissions() async {
