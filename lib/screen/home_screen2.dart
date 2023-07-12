@@ -89,7 +89,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
             return ListView.builder(
                 itemCount: _taskController.taskList.length,
                 itemBuilder: (context, index) {
-                  print("${_taskController.taskList.length.toString()} kkkkss");
+                  logger.i("${_taskController.taskList.length.toString()} kkkkss");
 
                   Task tasked = _taskController.taskList[index];
                   logger.i('${tasked.toJson()}');
@@ -104,7 +104,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
                         int.parse(myTime.toString().split(":")[1]),
                         tasked);
 
-                    loggers.i("$myTime");
+                    loggers.i(myTime);
 
                     return AnimationConfiguration.staggeredList(
                       position: index,

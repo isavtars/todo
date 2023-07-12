@@ -34,12 +34,12 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
   int selectecolor = 0;
 
   TimeOfDay selectedTime = TimeOfDay.now();
-  final _task_controller = Get.find<TaskController>();
+  final _taskCOntroller = Get.find<TaskController>();
 
   //_addTaskToDb
   _addTaskToDb() async {
     if (titleController.text.isNotEmpty || noteController.text.isNotEmpty) {
-      int value = await _task_controller.addToTask(
+      int value = await _taskCOntroller.addToTask(
           task: Task(
         title: titleController.text,
         note: noteController.text,
