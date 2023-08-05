@@ -4,6 +4,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
+import 'package:sqllite/screen/v1/showsnackbar.dart';
 
 import 'package:sqllite/utils/sizeconfig.dart';
 import '../logic/task_controller.dart';
@@ -89,7 +90,8 @@ class _HomeScreen2State extends State<HomeScreen2> {
             return ListView.builder(
                 itemCount: _taskController.taskList.length,
                 itemBuilder: (context, index) {
-                  logger.i("${_taskController.taskList.length.toString()} kkkkss");
+                  logger.i(
+                      "${_taskController.taskList.length.toString()} kkkkss");
 
                   Task tasked = _taskController.taskList[index];
                   logger.i('${tasked.toJson()}');
@@ -394,16 +396,57 @@ class _HomeScreen2State extends State<HomeScreen2> {
                     height: 20,
                   ),
                   CustomeBtn(
-                      color: Colors.red,
-                      width: double.infinity,
-                      icons: Icons.delete,
-                      bthTitles: "Delete",
-                      onpressed: () {
-                        _taskController
-                            .deleteTask(_taskController.taskList[index]);
-                        _taskController.getTasks();
-                        Navigator.pop(context);
-                      }),
+                    color: Colors.red,
+                    width: double.infinity,
+                    icons: Icons.delete,
+                    bthTitles: "Delete",
+                    onpressed: () {
+                      // Show a confirmation dialog before deleting the task
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text("Confirmation"),
+                            content: const Text(
+                                "Are you sure you want to delete this task?"),
+                            actions: [
+                              TextButton(
+                                child: const Text("Cancel",
+                                    style: TextStyle(color: Colors.green)),
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(); // Close the dialog
+                                },
+                              ),
+                              TextButton(
+                                child: const Text(
+                                  "Delete",
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                                onPressed: () {
+                                  // Delete the task and close the dialog
+                                  _taskController.deleteTask(
+                                      _taskController.taskList[index]);
+                                  _taskController.getTasks();
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
+
+                                  // Show a snackbar to inform the user that the task has been deleted successfully
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      duration: Duration(seconds: 2),
+                                      content: CustomSnackBar(
+                                          text: "Task deleted successfully"),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
