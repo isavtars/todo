@@ -9,6 +9,8 @@ import 'logic/themchanger.dart';
 import 'screen/splashscreen.dart';
 import 'utils/todoapp_themes.dart';
 
+
+//ok
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   initializeTimeZones();
