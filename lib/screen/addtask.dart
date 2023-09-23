@@ -33,7 +33,7 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
   String reaptedropvalue = "None";
   int selectecolor = 0;
 
-  TimeOfDay selectedTime = TimeOfDay.now();
+  // TimeOfDay selectedTime = TimeOfDay.now();
   final _taskCOntroller = Get.find<TaskController>();
 
   //_addTaskToDb
@@ -334,21 +334,21 @@ class _AddTaskScreennState extends State<AddTaskScreenn> {
   }
 
   userDatePicker() async {
-    DateTime? pickerDate = await showDatePicker(
-      // currentDate: DateTime.now(),
+    DateTime currentDate = DateTime.now();
 
+    DateTime? pickerDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
+      initialDate: currentDate,
+      firstDate: currentDate, // Set firstDate to the current date
       lastDate: DateTime(2121),
     );
 
-    if (pickerDate != null) {
+    if (pickerDate != null && !pickerDate.isBefore(currentDate)) {
       setState(() {
         _selectedDate = pickerDate;
       });
     } else {
-      logger.d("erroer somthings");
+      logger.d("Invalid date selection");
     }
   }
 }

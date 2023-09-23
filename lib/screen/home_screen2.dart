@@ -96,8 +96,11 @@ class _HomeScreen2State extends State<HomeScreen2> {
                   Task tasked = _taskController.taskList[index];
                   logger.i('${tasked.toJson()}');
 
+                
+
                   if (tasked.reapert == "Daily") {
                     loggers.i("This is daily tasked");
+                      logger.i(tasked.startTime.toString() +"this is with am and pm");
                     DateTime mydate =
                         DateFormat.jm().parse(tasked.startTime.toString());
                     var myTime = DateFormat("hh:mm").format(mydate);
@@ -106,7 +109,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
                         int.parse(myTime.toString().split(":")[1]),
                         tasked);
 
-                    loggers.i(myTime);
+                    loggers.i(myTime +"this time without am/pm");
 
                     return AnimationConfiguration.staggeredList(
                       position: index,
